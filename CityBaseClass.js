@@ -24,13 +24,18 @@ class CityBase {
       this.lineElements[i].style.zIndex = 100 - i*10;
       this.lineElements[i].style.top = height - i*this.buildingLineHeight +'px';
     }
+    
+    setInterval(_=>{
+      this.update();
+      this.draw();
+    }, 100);
   }
   
-  update = function() {
+  update() {
     this.objects.map(v=>v.map(vv=>vv.update()));
   }
   
-  draw = function() {
+  draw() {
     this.objects.map(v=>v.map(vv=>vv.draw()));
   }
 }

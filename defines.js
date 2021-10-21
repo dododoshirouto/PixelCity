@@ -7,11 +7,15 @@ const randomRange = function(min, max) {
 }
 
 const mainElem = $('div#main')[0];
+// const mainElem = document.body;
 
 height = 0;
 width = 0;
 const getPageSize = function() {
-  height = mainElem.innerHeight;
-  width = mainElem.innerWidth;
+  // height = mainElem.clientHeight;
+  // width = mainElem.clientWidth;
+  height = window.innerHeight;
+  width = window.innerWidth;
+  console.log(height);
 }
 queryAddEventListeners([window], "load resize", getPageSize);

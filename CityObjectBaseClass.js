@@ -15,7 +15,7 @@ class CityObjectBase {
     
   }
   
-  create = function(parent) {
+  create(parent) {
     this.canvas = document.createElement('canvas');
     parent.append(this.canvas);
     this.canvas.width = this.width;
@@ -23,9 +23,9 @@ class CityObjectBase {
     this.ctx = this.canvas.getContext('2d');
   }
   
-  update = function(){};
+  update(){};
   
-  draw = function(){};
+  draw(){};
 }
 
 
@@ -40,5 +40,16 @@ class CityObjectNormalBuilding extends CityObjectBase {
     this.width = Math.sin(randomRange(0,Math.PI)) * 10 + 5;
     
     this.create(parent);
+  }
+  
+  ctrate(parent) {
+    super.create(parent);
+    
+    this.ctx.fillStyle = '#ff0000';
+    this.ctx.fillRect(0, 0, this.width, this.height);
+  }
+  
+  update(){
+    console.log(this.canvas.offsetTop);
   }
 }
