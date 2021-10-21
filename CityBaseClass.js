@@ -1,7 +1,7 @@
 class CityBase {
   
-  buildingsLine = Math.floor(randomRange(3,10));
-  buildingLineHeight = randomRange(10,100);
+  buildingsLine = 0;
+  buildingLineHeight = 0;
   
   skyColors = [
     {time:0, weather:'clear', colors: ['#88bbff', '#edf8ff']},
@@ -11,15 +11,35 @@ class CityBase {
   
   objects = [[]];
   
+  lineElements = [];
+  
   constructor() {
+    this.buildingsLine = Math.floor(randomRange(3,10));
+    this.buildingLineHeight = randomRange(10,100);
     
+    for(let i=0; i<=this.buildingsLine; i++) {
+      this.lineElements[i] = document.createElement("div");
+      main.append(this.lineElements[i]);
+      this.lineElements[i].classList.add('line-element');
+      this.lineElements[i].style.zIndex = 100 - i*10;
+      this.lineElements[i].style.top = height - i*this.buildingLineHeight +'px';
+    }
   }
   
   update = function() {
-    
+    this.objects.map(v=>v.map(vv=>vv.update()));
   }
   
   draw = function() {
+    this.objects.map(v=>v.map(vv=>vv.draw()));
+  }
+}
+
+
+class CityNormal extends CityBase {
+  constructor() {
+    super();
     
+    this.objects[0][0] = new CityObjectNormalBuilding(this.lineElements[0], 0);
   }
 }

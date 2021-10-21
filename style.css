@@ -18,3 +18,12 @@
   
   background-color: black;
 }
+
+#main {
+  position: absolute;
+}
+
+
+.line-element {
+  width: 100%;
+}
