@@ -11,7 +11,7 @@ class CityObjectBase {
   canvas = null;
   ctx = null;
 
-  color = new Color();
+  color = "#000000FF";
 
   constructor(parent, localPosX, color) {
     this.localPosX = localPosX;
@@ -24,10 +24,10 @@ class CityObjectBase {
     parent.append(this.canvas);
     this.canvas.width = this.width;
     this.canvas.height = this.height;
-    this.canvas.style.top = -this.height * render_pixel_multip + 'px';
-    this.canvas.style.width = this.width * render_pixel_multip + 'px';
-    this.canvas.style.height = this.height * render_pixel_multip + 'px';
-    this.canvas.style.left = this.localPosX * render_pixel_multip + 'px';
+    this.canvas.style.top = -Math.round(this.height) * render_pixel_multip + 'px';
+    this.canvas.style.width = Math.round(this.width) * render_pixel_multip + 'px';
+    this.canvas.style.height = Math.round(this.height) * render_pixel_multip + 'px';
+    this.canvas.style.left = Math.round(this.localPosX) * render_pixel_multip + 'px';
     this.ctx = this.canvas.getContext('2d');
   }
 
@@ -36,9 +36,9 @@ class CityObjectBase {
   draw(){}
 
   resize(){
-    this.canvas.style.top = -this.height * render_pixel_multip + 'px';
-    this.canvas.style.width = this.width * render_pixel_multip + 'px';
-    this.canvas.style.height = this.height * render_pixel_multip + 'px';
+    this.canvas.style.top = -Math.round(this.height) * render_pixel_multip + 'px';
+    this.canvas.style.width = Math.round(this.width) * render_pixel_multip + 'px';
+    this.canvas.style.height = Math.round(this.height) * render_pixel_multip + 'px';
   }
 }
 
@@ -48,8 +48,8 @@ class CityObjectNormalBuilding extends CityObjectBase {
   constructor (parent, localPosX, color) {
     super(parent, localPosX, color);
 
-    this.height = Math.sin(randomRange(0,Math.PI)) * 20 + 5;
-    this.width = Math.sin(randomRange(0,Math.PI)) * 10 + 5;
+    this.height = Math.round(Math.sin(randomRange(0,Math.PI)) * 20 + 5);
+    this.width = Math.round(Math.sin(randomRange(0,Math.PI)) * 10 + 5);
 
     this.create(parent);
   }
@@ -57,8 +57,13 @@ class CityObjectNormalBuilding extends CityObjectBase {
   create(parent) {
     super.create(parent);
 
-    this.ctx.fillStyle = this.color.toHEX();
+    this.ctx.fillStyle = this.color;
     this.ctx.fillRect(0, 0, this.width, this.height);
+    for (let x=0; x<(this.width-2)/2-1; x++) {
+      for (let y=0; y<(this.height-4)/2-1; y++) {
+        if (Math.random()<0.7) this.ctx.clearRect(1+x*2, 2+y*2, 1, 1);
+      }
+    }
   }
 
   update(){

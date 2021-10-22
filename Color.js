@@ -74,10 +74,12 @@ class Color {
     }
 
     static lerp(a, b, t) {
+        t = Math.min(1, Math.max(0, t));
         return new Color(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, a.a + (b.a - a.a) * t );
     }
 
     static lerpHSV(a, b, t) {
+        t = Math.min(1, Math.max(0, t));
         let hsva = a.toHSV();
         let hsvb = b.toHSV();
         return Color.HSV(hsva[0] + (hsvb[0] - hsva[0]) * t, hsva[1] + (hsvb[1] - hsva[1]) * t, hsva[2] + (hsvb[2] - hsva[2]) * t, a.a + (b.a - a.a) * t );
