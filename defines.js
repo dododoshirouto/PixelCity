@@ -1,3 +1,8 @@
+render_pixel_multip_level = 0;
+render_pixel_multip = Math.pow(2, render_pixel_multip_level);
+
+cityObject = null;
+
 const $ = function(selector, parent=document) {
   return Array.from(parent.querySelectorAll(selector));
 }
@@ -11,11 +16,14 @@ const mainElem = $('div#main')[0];
 
 height = 0;
 width = 0;
-const getPageSize = function() {
+const getPageSize = function (level = render_pixel_multip_level) {
+  render_pixel_multip_level = level;
+  render_pixel_multip = Math.pow(2, render_pixel_multip_level);
   // height = mainElem.clientHeight;
   // width = mainElem.clientWidth;
-  height = window.innerHeight;
-  width = window.innerWidth;
-  console.log(height);
+  height = window.innerHeight / render_pixel_multip;
+  width = window.innerWidth / render_pixel_multip;
+
+  if (cityObject) cityObject.resize();
 }
-queryAddEventListeners([window], "load resize", getPageSize);
+queryAddEventListeners([window], "load resize", _=>{getPageSize()});
