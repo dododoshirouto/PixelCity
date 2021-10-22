@@ -1,4 +1,4 @@
-render_pixel_multip_level = 0;
+render_pixel_multip_level = 2;
 render_pixel_multip = Math.pow(2, render_pixel_multip_level);
 
 cityObject = null;

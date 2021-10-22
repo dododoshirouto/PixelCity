@@ -4,7 +4,7 @@ class CityBase {
   buildingLineHeight = 0;
 
   skyColors = [
-    {time:0, weather:'clear', colors: ['#88bbff', '#edf8ff']},
+    { time: 0, weather: 'clear', colors: [Color.HEX('#88bbff'), Color.HEX('#edf8ff')], objectColors: [Color.HEX('#edf8ff'), Color.HEX('#88bbff')]},
   ];
 
   scrollX = 0;
@@ -15,7 +15,7 @@ class CityBase {
 
   constructor() {
     this.buildingsLine = Math.floor(randomRange(3,10));
-    this.buildingLineHeight = randomRange(10,100);
+    this.buildingLineHeight = randomRange(10,30);
 
     for(let i=0; i<=this.buildingsLine; i++) {
       this.lineElements[i] = document.createElement("div");
@@ -52,6 +52,14 @@ class CityNormal extends CityBase {
   constructor() {
     super();
 
-    this.objects[0][0] = new CityObjectNormalBuilding(this.lineElements[0], 0);
+    for (let i = 0; i < this.lineElements.length; i++) {
+      let fill_width = 0;
+      this.objects[i] = [];
+      while (fill_width <= width) {
+        let obj = new CityObjectNormalBuilding(this.lineElements[i], fill_width, Color.lerp(Color.HEX('#edf8ff'), Color.HEX('#88bbff'), i / (this.lineElements.length-1)) );
+        this.objects[i].push(obj);
+        fill_width += obj.width + randomRange(-5, 5);
+      }
+    }
   }
 }

@@ -11,8 +11,11 @@ class CityObjectBase {
   canvas = null;
   ctx = null;
 
-  constructor() {
+  color = new Color();
 
+  constructor(parent, localPosX, color) {
+    this.localPosX = localPosX;
+    this.color = color;
   }
 
   create(parent) {
@@ -24,6 +27,7 @@ class CityObjectBase {
     this.canvas.style.top = -this.height * render_pixel_multip + 'px';
     this.canvas.style.width = this.width * render_pixel_multip + 'px';
     this.canvas.style.height = this.height * render_pixel_multip + 'px';
+    this.canvas.style.left = this.localPosX * render_pixel_multip + 'px';
     this.ctx = this.canvas.getContext('2d');
   }
 
@@ -41,10 +45,8 @@ class CityObjectBase {
 
 
 class CityObjectNormalBuilding extends CityObjectBase {
-  constructor (parent, localPosX) {
-    super();
-
-    this.localPosX = localPosX;
+  constructor (parent, localPosX, color) {
+    super(parent, localPosX, color);
 
     this.height = Math.sin(randomRange(0,Math.PI)) * 20 + 5;
     this.width = Math.sin(randomRange(0,Math.PI)) * 10 + 5;
@@ -55,8 +57,7 @@ class CityObjectNormalBuilding extends CityObjectBase {
   create(parent) {
     super.create(parent);
 
-
-    this.ctx.fillStyle = '#ff0000';
+    this.ctx.fillStyle = this.color.toHEX();
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
