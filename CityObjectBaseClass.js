@@ -14,11 +14,12 @@ class CityObjectBase {
   color = "#000000FF";
 
   constructor(parent, localPosX, color) {
+    // this.parent = parent;
     this.localPosX = localPosX;
     this.color = color;
   }
 
-  create(parent) {
+  create(parent, lineNm, scrollX) {
     this.canvas = document.createElement('canvas');
     this.canvas.classList.add('object-canvas');
     parent.append(this.canvas);
@@ -27,13 +28,15 @@ class CityObjectBase {
     this.canvas.style.top = -Math.round(this.height) * render_pixel_multip + 'px';
     this.canvas.style.width = Math.round(this.width) * render_pixel_multip + 'px';
     this.canvas.style.height = Math.round(this.height) * render_pixel_multip + 'px';
-    this.canvas.style.left = Math.round(this.localPosX) * render_pixel_multip + 'px';
+    this.canvas.style.left = Math.round(this.localPosX - scrollX) * render_pixel_multip + 'px';
     this.ctx = this.canvas.getContext('2d');
   }
 
-  update(){}
+  update(lineNm, scrollX){
+    this.canvas.style.left = Math.round(this.localPosX - scrollX) * render_pixel_multip + 'px';
+  }
 
-  draw(){}
+  draw(lineNm, scrollX){}
 
   resize(){
     this.canvas.style.top = -Math.round(this.height) * render_pixel_multip + 'px';
@@ -66,7 +69,5 @@ class CityObjectNormalBuilding extends CityObjectBase {
     }
   }
 
-  update(){
-
-  }
+  
 }
