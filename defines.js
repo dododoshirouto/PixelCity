@@ -21,7 +21,8 @@ const getPageSize = function (level = render_pixel_multip_level) {
   render_pixel_multip = Math.pow(2, render_pixel_multip_level);
   // height = mainElem.clientHeight;
   // width = mainElem.clientWidth;
-  height = window.innerHeight / render_pixel_multip;
+  height = mainElem.clientHeight / render_pixel_multip;
+  // height = window.innerHeight / render_pixel_multip;
   width = window.innerWidth / render_pixel_multip;
 
   if (cityObject) cityObject.resize();

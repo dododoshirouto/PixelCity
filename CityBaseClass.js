@@ -8,8 +8,8 @@ class CityBase {
   scrollSpeedMin = randomRange(0.0001, this.scrollSpeedMax/2);
 
 
-  skyColors = [
-    { time: 0, weather: 'clear', colors: [Color.HEX('#88bbff'), Color.HEX('#edf8ff')], objectColors: [Color.HEX('#edf8ff'), Color.HEX('#88bbff')]},
+  colors = [
+    { time: 0, weather: 'clear', skyColors: [Color.HEX('#888888'), Color.HEX('#ffffff')], objectColors: [Color.HEX('#000000'), Color.HEX('#888888')]},
   ];
 
   lineScrollX = [];
@@ -50,6 +50,13 @@ class CityBase {
   }
 
   draw() {
+    let background = 'linear-gradient(0deg, $1, $2)'.format(
+      this.getColor().skyColors[0].toHEX(),
+      this.getColor().skyColors[1].toHEX()
+      );
+    if (background != mainElem.style.backgroundImage) {
+      mainElem.style.backgroundImage = background;
+    }
     this.objects.map((v,i)=>v.map(vv=>vv.draw(i, this.lineScrollX[i])));
   }
 
@@ -63,6 +70,10 @@ class CityBase {
   createObjects() {
 
   }
+  
+  getColor() {
+    return this.colors[0];
+  }
 }
 
 
@@ -72,10 +83,23 @@ class CityNormal extends CityBase {
   }
 
   createObjects() {
+    
     for (let i = 0; i < this.buildingsLine; i++) {
-      // this.fill_width[i] = 0;'
+      // this.fill_width[i] = 0;
+      
+      for (let ii=0; ii<= this.objects[i].length; ii++) {
+        let obj = this.objects[i][ii];
+        if (!obj) continue;
+        if (obj.localPosX + obj.width - this.lineScrollX[i] < 0) {
+          obj.destroy();
+          this.objects[i][ii] = null;
+        }
+      }
+      
+      this.objects[i] = this.objects[i].filter(v=>v);
+      
       while (this.fill_width[i] <= width + this.lineScrollX[i]) {
-        let obj = new CityObjectNormalBuilding(this.lineElements[i], this.fill_width[i], Color.lerp(Color.HEX('#edf8ff'), Color.HEX('#00439c'), i / (this.buildingsLine-1)).toHEX() );
+        let obj = new CityObjectNormalBuilding(this, this.lineElements[i], this.fill_width[i], Color.lerp(this.getColor().objectColors[0], this.getColor().objectColors[1], i / (this.buildingsLine-1)).toHEX() );
         this.objects[i].push(obj);
         this.fill_width[i] += obj.width + randomRange(-5, 5);
       }

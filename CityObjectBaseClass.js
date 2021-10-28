@@ -1,5 +1,6 @@
 class CityObjectBase {
 
+  city = null;
   elem = null;
 
   localPosX = 0;
@@ -13,8 +14,9 @@ class CityObjectBase {
 
   color = "#000000FF";
 
-  constructor(parent, localPosX, color) {
+  constructor(city, parent, localPosX, color) {
     // this.parent = parent;
+    this.city = city;
     this.localPosX = localPosX;
     this.color = color;
   }
@@ -43,13 +45,18 @@ class CityObjectBase {
     this.canvas.style.width = Math.round(this.width) * render_pixel_multip + 'px';
     this.canvas.style.height = Math.round(this.height) * render_pixel_multip + 'px';
   }
+  
+  destroy() {
+    if (this.elem) this.elem.remove();
+    // this = null;
+  }
 }
 
 
 
 class CityObjectNormalBuilding extends CityObjectBase {
-  constructor (parent, localPosX, color) {
-    super(parent, localPosX, color);
+  constructor (city, parent, localPosX, color) {
+    super(city, parent, localPosX, color);
 
     this.height = Math.round(Math.sin(randomRange(0,Math.PI)) * 20 + 5);
     this.width = Math.round(Math.sin(randomRange(0,Math.PI)) * 10 + 5);
