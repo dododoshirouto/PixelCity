@@ -4,8 +4,8 @@ class CityBase {
   buildingLineHeight = 0;
   fill_width = [];
 
-  scrollSpeedMax = randomRange(3, 0.1);
-  scrollSpeedMin = randomRange(0.0001, this.scrollSpeedMax/2);
+  scrollSpeedMax = randomRange(180, 6);
+  scrollSpeedMin = randomRange(0.006, this.scrollSpeedMax/2);
 
 
   colors = [
@@ -38,15 +38,19 @@ class CityBase {
     setInterval(_=>{
       this.update();
       this.draw();
+      
     }, 1);
   }
 
   update() {
     for (let i=0; i<this.buildingsLine; i++) {
-      this.lineScrollX[i] += Math.lerp(this.scrollSpeedMin, this.scrollSpeedMax, 1-Math.pow((i / (this.buildingsLine-1)), 2))
+      this.lineScrollX[i] += Math.lerp(this.scrollSpeedMin, this.scrollSpeedMax, 1-Math.pow((i / (this.buildingsLine-1)), 2)) * Times.deltaTime;
     }
     this.createObjects();
     this.objects.map((v,i)=>v.map(vv=>vv.update(i, this.lineScrollX[i])));
+    
+    Times.endDeltaTime();
+    console.log(Times.deltaTime);
   }
 
   draw() {
