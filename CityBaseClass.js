@@ -38,7 +38,7 @@ class CityBase {
     setInterval(_=>{
       this.update();
       this.draw();
-      
+
     }, 1);
   }
 
@@ -48,9 +48,9 @@ class CityBase {
     }
     this.createObjects();
     this.objects.map((v,i)=>v.map(vv=>vv.update(i, this.lineScrollX[i])));
-    
+
     Times.endDeltaTime();
-    console.log(Times.deltaTime);
+    // console.log(Times.deltaTime);
   }
 
   draw() {
@@ -74,7 +74,7 @@ class CityBase {
   createObjects() {
 
   }
-  
+
   getColor() {
     return this.colors[0];
   }
@@ -87,10 +87,10 @@ class CityNormal extends CityBase {
   }
 
   createObjects() {
-    
+
     for (let i = 0; i < this.buildingsLine; i++) {
       // this.fill_width[i] = 0;
-      
+
       for (let ii=0; ii<= this.objects[i].length; ii++) {
         let obj = this.objects[i][ii];
         if (!obj) continue;
@@ -99,9 +99,9 @@ class CityNormal extends CityBase {
           this.objects[i][ii] = null;
         }
       }
-      
+
       this.objects[i] = this.objects[i].filter(v=>v);
-      
+
       while (this.fill_width[i] <= width + this.lineScrollX[i]) {
         let obj = new CityObjectNormalBuilding(this, this.lineElements[i], this.fill_width[i], Color.lerp(this.getColor().objectColors[0], this.getColor().objectColors[1], i / (this.buildingsLine-1)).toHEX() );
         this.objects[i].push(obj);

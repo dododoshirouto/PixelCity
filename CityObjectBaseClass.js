@@ -1,7 +1,8 @@
 class CityObjectBase {
 
   city = null;
-  elem = null;
+
+  parent = null;
 
   localPosX = 0;
   nextLocalPosX = 0;
@@ -15,7 +16,7 @@ class CityObjectBase {
   color = "#000000FF";
 
   constructor(city, parent, localPosX, color) {
-    // this.parent = parent;
+    this.parent = parent;
     this.city = city;
     this.localPosX = localPosX;
     this.color = color;
@@ -35,7 +36,11 @@ class CityObjectBase {
   }
 
   update(lineNm, scrollX){
-    this.canvas.style.left = (this.localPosX - scrollX) * render_pixel_multip + 'px';
+    this.canvas.style.left = Math.round(this.localPosX - scrollX) * render_pixel_multip + 'px';
+
+    if (this.localPosX - scrollX + width < 0) {
+      this.destroy();
+    }
   }
 
   draw(lineNm, scrollX){}
@@ -45,10 +50,11 @@ class CityObjectBase {
     this.canvas.style.width = Math.round(this.width) * render_pixel_multip + 'px';
     this.canvas.style.height = Math.round(this.height) * render_pixel_multip + 'px';
   }
-  
+
   destroy() {
-    if (this.elem) this.elem.remove();
-    // this = null;
+    console.log('CityObjectBaseClass destroy');
+    if (this.canvas) this.canvas.remove();
+    // this.parent = this.parent.filter(v=>v!=this);
   }
 }
 
